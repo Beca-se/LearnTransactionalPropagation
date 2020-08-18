@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN/"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zh.learn.mapper.UserInfoMapper">
+    <select id="getOneById" resultType="com.zh.learn.entity.UserInfo" parameterType="_long" useCache="false"
+            timeout="5000" statementType="PREPARED" flushCache="true" fetchSize="1">
+        SELECT *
+        FROM USER_INFO
+        WHERE ID = #{id}
+    </select>
+    <!--
+    select 属性
+        id: 在命名空间中唯一的标识符，可以被用来引用这条语句  T
+        parameterType: 传入的参数类型 非必须
+    -->
+    <insert id="saveAll" useGeneratedKeys="true" parameterType="list">
+        INSERT INTO USER_INFO (USERNAME,PASSWORD,NICK_NAME,CREATED_TIME,UPDATED_TIME,VERSION,OBSOLETE)
+        VALUES
+        <foreach collection="list" separator="," item="item">
+            ( #{item.username}, #{item.password}, #{item.nickName}, #{item.createdTime}, #{item.updatedTime},
+            #{item.version}, #{item.obsolete})
+        </foreach>
+    </insert>
+</mapper>
